@@ -7,8 +7,6 @@ from os import path
 from pytube import YouTube  # https://pytube.io/en/latest/
 from moviepy.editor import *  # https://zulko.github.io/moviepy/index.html
 
-video_id = input("Enter video is from url: ")
-
 
 def get_you_tube_file(vid_id):
     yt_link = f'https://youtu.be/{vid_id}'
@@ -31,7 +29,7 @@ class DoesNotExist(BaseException):
     ...
 
 
-def check_videos_folder(folder_name):
+def check_folder_exists(folder_name):
     check_4_folder = path.exists(folder_name)
 
     if check_4_folder:
@@ -50,12 +48,13 @@ def change_mp4_location(prompt):
             continue
         get_mp4_file = glob.glob('./*.mp4')[0]
         if move_file == "yes" or move_file == 'y':
-            check_videos_folder('videos')
+            check_folder = 'videos'
+            check_folder_exists(check_folder)
             print("moving file")
 
             try:
                 orig_file = get_mp4_file
-                dest_file = f"./videos/{orig_file[2:]}"
+                dest_file = f"./{check_folder}/{orig_file[2:]}"
                 shutil.move(orig_file, dest_file)
 
                 print("all done!!!")
@@ -65,7 +64,37 @@ def change_mp4_location(prompt):
         elif move_file == "no" or move_file == "n":
             mp4_file = get_mp4_file[2:]
             print(mp4_file)
-            ask_for_mp3("convert to MP3?(yes/no)", get_mp4_file)
+            ask_for_mp3("convert to MP3? (y/n)", get_mp4_file)
+            break
+        else:
+            print("use only yes(y) or no(n): ")
+
+
+def change_mp3_location(prompt):
+    while True:
+        try:
+            move_mp3 = input(prompt).lower()
+        except ValueError:
+            print("Sorry, wrong input")
+            continue
+        get_mp3_file = glob.glob('./*.mp3')[0]
+        if move_mp3 == "yes" or move_mp3 == 'y':
+            check_folder = 'mp3s'
+            check_folder_exists(check_folder)
+            print("moving file")
+
+            try:
+                orig_file = get_mp3_file
+                dest_file = f"./{check_folder}/{orig_file[2:]}"
+                shutil.move(orig_file, dest_file)
+
+                print("all done!!!")
+                break
+            except DoesNotExist as e:
+                print(e)
+        elif move_mp3 == "no" or move_mp3 == "n":
+            mp3_file = get_mp3_file[2:]
+            print(mp3_file)
             break
         else:
             print("use only yes(y) or no(n): ")
@@ -95,10 +124,9 @@ def convert_to_mp3(mp4_file):
     clip.audio.write_audiofile(mp3_file_name)
     print("created mp3 file and deleting original file")
     os.remove(mp4_file)
+    change_mp3_location("move file to mp3s folder? (y/n)")
 
 
-# hYh_RkkgFd0 test-video-id
-
-
+video_id = input("Enter video is from url: ")
 get_you_tube_file(video_id)
 change_mp4_location("move to videos folder? (y/n)")
