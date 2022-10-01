@@ -16,3 +16,4 @@ TODO:
 5. adding a loader - terminal version ?
 6. exit option at each step
 7. refactor code
+8. ask to move mp3 file to corressponding folder
