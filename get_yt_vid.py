@@ -9,6 +9,10 @@ from moviepy.editor import *  # https://zulko.github.io/moviepy/index.html
 
 
 def get_you_tube_file(vid_id):
+
+    if vid_id == ":q":
+        return                      # left here
+
     yt_link = f'https://youtu.be/{vid_id}'
 
     YouTube(yt_link).streams.first().download()
@@ -64,10 +68,13 @@ def change_mp4_location(prompt):
         elif move_file == "no" or move_file == "n":
             mp4_file = get_mp4_file[2:]
             print(mp4_file)
-            ask_for_mp3("convert to MP3? (y/n)", get_mp4_file)
+            ask_for_mp3("convert to MP3? (y/n/:q)", get_mp4_file)
+            break
+        elif move_file == ":q":
+            print("Bye bye!")
             break
         else:
-            print("use only yes(y) or no(n): ")
+            print("use only yes(y), no(n) or :q to exit")
 
 
 def change_mp3_location(prompt):
@@ -96,8 +103,11 @@ def change_mp3_location(prompt):
             mp3_file = get_mp3_file[2:]
             print(mp3_file)
             break
+        elif move_mp3 == ":q":
+            print("Bye bye!")
+            break
         else:
-            print("use only yes(y) or no(n): ")
+            print("use only yes(y), no(n) or :q to exit ")
 
 
 def ask_for_mp3(mp3_prompt, file):
@@ -114,8 +124,11 @@ def ask_for_mp3(mp3_prompt, file):
         elif get_answer == 'no' or get_answer == 'n':
             print("all done!!!")
             break
+        elif get_answer == ":q":
+            print("Bye bye!")
+            break
         else:
-            print("use only yes(y) or no(n): ")
+            print("use only yes(y), no(n) or :q to exit")
 
 
 def convert_to_mp3(mp4_file):
@@ -124,9 +137,9 @@ def convert_to_mp3(mp4_file):
     clip.audio.write_audiofile(mp3_file_name)
     print("created mp3 file and deleting original file")
     os.remove(mp4_file)
-    change_mp3_location("move file to mp3s folder? (y/n)")
+    change_mp3_location("move file to mp3s folder? (y/n/:q)")
 
 
-video_id = input("Enter video is from url: ")
+video_id = input("Enter video is from url (or quit by typing :q) ")
 get_you_tube_file(video_id)
-change_mp4_location("move to videos folder? (y/n)")
+change_mp4_location("move to videos folder? (y/n/:q)")
