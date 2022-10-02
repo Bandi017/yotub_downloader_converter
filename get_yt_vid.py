@@ -1,7 +1,7 @@
-import glob
 import os
 import shutil
 import glob
+import sys
 
 from os import path
 from pytube import YouTube  # https://pytube.io/en/latest/
@@ -11,7 +11,8 @@ from moviepy.editor import *  # https://zulko.github.io/moviepy/index.html
 def get_you_tube_file(vid_id):
 
     if vid_id == ":q":
-        return                      # left here
+        print("Bye Bye")
+        sys.exit()                      # left here
 
     yt_link = f'https://youtu.be/{vid_id}'
 
@@ -72,7 +73,7 @@ def change_mp4_location(prompt):
             break
         elif move_file == ":q":
             print("Bye bye!")
-            break
+            sys.exit()
         else:
             print("use only yes(y), no(n) or :q to exit")
 
@@ -105,7 +106,7 @@ def change_mp3_location(prompt):
             break
         elif move_mp3 == ":q":
             print("Bye bye!")
-            break
+            sys.exit()
         else:
             print("use only yes(y), no(n) or :q to exit ")
 
@@ -126,7 +127,7 @@ def ask_for_mp3(mp3_prompt, file):
             break
         elif get_answer == ":q":
             print("Bye bye!")
-            break
+            sys.exit()
         else:
             print("use only yes(y), no(n) or :q to exit")
 
@@ -143,3 +144,5 @@ def convert_to_mp3(mp4_file):
 video_id = input("Enter video is from url (or quit by typing :q) ")
 get_you_tube_file(video_id)
 change_mp4_location("move to videos folder? (y/n/:q)")
+
+# paL0f5Qr9fs
