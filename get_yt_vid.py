@@ -1,25 +1,37 @@
-import os
 import shutil
 import glob
-import sys
 
 from os import path
 from pytube import YouTube  # https://pytube.io/en/latest/
 from moviepy.editor import *  # https://zulko.github.io/moviepy/index.html
 
 
-def get_you_tube_file(vid_id):
+def progress_function(chunk, file_handle, bytes_remaining):
+    print("Download finished!")
 
+
+def progress_ended():
+    print("Downloading file!")
+
+
+def get_you_tube_file(vid_id):
     if vid_id == ":q":
         print("Bye Bye")
-        sys.exit()                      # left here
+        sys.exit()
 
     yt_link = f'https://youtu.be/{vid_id}'
 
-    YouTube(yt_link).streams.first().download()
+    YouTube(yt_link,
+            on_progress_callback=progress_function,
+            on_complete_callback=progress_ended()
+            ). \
+        streams.first(). \
+        download()
+
     yt = YouTube(yt_link)
+    # next lines should be covered by a loader animation
+
     yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download()
-    print("download finished")
 
     get_3gpp_file = glob.glob('./*.3gpp')[0]
     print("trying to remove 3gpp file")
@@ -59,8 +71,8 @@ def change_mp4_location(prompt):
 
             try:
                 orig_file = get_mp4_file
-                dest_file = f"./{check_folder}/{orig_file[2:]}"
-                shutil.move(orig_file, dest_file)
+                destination_file = f"./{check_folder}/{orig_file[2:]}"
+                shutil.move(orig_file, destination_file)
 
                 print("all done!!!")
                 break
@@ -93,8 +105,8 @@ def change_mp3_location(prompt):
 
             try:
                 orig_file = get_mp3_file
-                dest_file = f"./{check_folder}/{orig_file[2:]}"
-                shutil.move(orig_file, dest_file)
+                destination_file = f"./{check_folder}/{orig_file[2:]}"
+                shutil.move(orig_file, destination_file)
 
                 print("all done!!!")
                 break
