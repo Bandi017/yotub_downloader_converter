@@ -14,7 +14,7 @@ TODO:
 3. testing 
 4. Interface ?
 5. adding a loader - terminal version ?
-6. exit option at each step
+6 ~~ exit option at each step ~~
 7. refactor code
-8. ask to move mp3 file to corressponding folder  DONE
+8. ~~ ask to move mp3 file to corressponding folder ~~
 9. sanitize initial input...might be that the whole link might be pasted 
