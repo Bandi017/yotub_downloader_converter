@@ -1,5 +1,6 @@
 import shutil
 import glob
+from itertools import count
 
 from os import path
 from pytube import YouTube  # https://pytube.io/en/latest/
@@ -32,14 +33,6 @@ def get_you_tube_file(vid_id):
     # next lines should be covered by a loader animation
 
     yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download()
-
-    get_3gpp_file = glob.glob('./*.3gpp')[0]
-    print("trying to remove 3gpp file")
-    if get_3gpp_file:
-        os.remove(get_3gpp_file)
-        print("successfully removed 3gp file")
-    else:
-        print("The file does not exist")
 
 
 class DoesNotExist(BaseException):
@@ -150,11 +143,12 @@ def convert_to_mp3(mp4_file):
     clip.audio.write_audiofile(mp3_file_name)
     print("created mp3 file and deleting original file")
     os.remove(mp4_file)
-    change_mp3_location("move file to mp3s folder? (y/n/:q)")
+    change_mp3_location("move file to mp3s folder? (y/n/:q)c ")
 
 
 video_id = input("Enter video is from url (or quit by typing :q) ")
 get_you_tube_file(video_id)
-change_mp4_location("move to videos folder? (y/n/:q)")
+change_mp4_location("move to videos folder? (y/n/:q) ")
 
 # paL0f5Qr9fs
+# uWlaBmBrZe8 not working
